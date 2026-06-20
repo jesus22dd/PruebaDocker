@@ -1,0 +1,63 @@
+﻿@model AppCompleta.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = Configuracion.NameTittle;
+    string exito = (string)TempData["Exito"]!;
+    string error = (string)TempData["Error"]!;
+}
+
+<div class="flex items-center justify-center min-h-[60vh] px-4">
+    
+    <div class="w-full max-w-md bg-[#1e293b] border border-slate-700 rounded-sm p-8 shadow-2xl">
+        @HelperClass.Mostrar(exito, error)
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-white tracking-tight">Ingresar Sesion</h1>
+        </div>
+
+        <form asp-controller="Auth" asp-action="Index" method="post" class="space-y-5">
+
+            <div asp-validation-summary="All" class="[&.validation-summary-valid]:hidden bg-rose-950/30 border border-rose-900/50 p-4 rounded-sm text-rose-400 text-sm  [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:font-semibold mb-6"> </div>
+
+            <div>
+                <label for="Email" class="block text-sm font-medium text-slate-300 mb-1.5">Correo Electrónico</label>
+                <input asp-for="Correo" type="email" required
+                       class="w-full bg-[#0f172a] border border-slate-700 rounded-sm px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 outline-none transition-all shadow-inner"
+                       placeholder="usuario@gmail.com"  value="pazjesu17@gmail.com"/>
+            </div>
+
+            <div>
+                <div class="flex items-center justify-between mb-1.5">
+                    <label for="Password" class="block text-sm font-medium text-slate-300">Contraseña</label>
+                    @* <a asp-controller="" asp-action="" class="text-xs font-medium text-slate-400 hover:text-white transition-colors">
+                        ¿Olvidaste tu contraseña?
+                    </a> *@
+                </div>
+                <input asp-for="Clave" type="password" required
+                       class="w-full bg-[#0f172a] border border-slate-700 rounded-sm px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 outline-none transition-all shadow-inner"
+                       placeholder="••••••••" value="11111111"/>
+            </div>
+
+            <div class="flex items-center">
+                @* <input type="checkbox" id="RememberMe" name="RememberMe" value="true"
+                       class="w-4 h-4 bg-[#0f172a] border-slate-700 rounded-sm text-slate-500 focus:ring-slate-500 focus:ring-offset-[#1e293b]" />
+                <label for="RememberMe" class="ml-2 block text-sm text-slate-400">
+                    Mantener sesión iniciada
+                </label> *@
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="w-full flex justify-center py-2.5 px-4 bg-white text-slate-900 text-sm font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
+                    Iniciar Sesión
+                </button>
+            </div>
+
+        </form>
+
+       @*  <div class="mt-6 text-center text-sm text-slate-400 border-t border-slate-700/50 pt-6">
+            ¿No tienes una cuenta?
+            <a asp-controller="" asp-action="" class="font-bold text-white hover:text-slate-300 transition-colors">
+                Solicitar acceso
+            </a>
+        </div> *@
+
+    </div>
+</div>

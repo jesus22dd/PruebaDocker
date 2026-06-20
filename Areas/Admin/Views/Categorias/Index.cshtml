@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AppCompleta.Models.Categoria>
+@{
+    ViewData["Title"] = Configuracion.NameTittle;
+    string exito = (string)TempData["Exito"]!;
+    string error = (string)TempData["Error"]!;
+}
+
+<div class="bg-white border border-slate-300 rounded-sm shadow-md overflow-hidden mt-6">
+    @HelperClass.Mostrar(exito, error)
+
+    <div class="px-6 py-4 flex justify-between items-center bg-[#0f172a] border-b border-[#0f172a]">
+        <h2 class="text-sm font-bold text-white uppercase tracking-wider">Listado de Registros</h2>
+        <a asp-action="Crear" class="px-4 py-1.5 bg-white text-[#0f172a] text-xs font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
+            + Nueva Categoria
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[600px]">
+            <thead>
+                <tr class="bg-slate-100 text-xs text-slate-700 uppercase tracking-wider border-b-2 border-slate-300">
+                    <th class="px-6 py-4 font-bold">ID</th>
+                    <th class="px-6 py-4 font-bold">Nombre</th>
+                    <th class="px-6 py-4 font-bold text-right">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm text-slate-800 divide-y divide-slate-200">
+
+
+                @foreach (var categ in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs font-bold text-slate-500">REG# @categ.Id</td>
+                        <td class="px-6 py-4 font-semibold text-[#0f172a]">@categ.Nombre</td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a asp-action="Editar" asp-route-code=@categ.HashId class="inline-block px-3 py-2 bg-[#0f172a] text-white text-xs font-bold uppercase rounded-sm hover:bg-slate-800">
+                                    Editar
+                                </a>
+                                <form asp-action="Eliminar" asp-route-code="@categ.HashId" method="post" class="m-0 p-0 delete-form" data-delete-name="@categ.Nombre">
+                                    <button type="submit" style="background-color: #dc2626; color: white;" class="inline-block px-3 py-2 text-xs font-bold uppercase rounded-sm cursor-pointer border-0 hover:opacity-80 transition-opacity">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @* <td class="px-6 py-4 font-medium text-slate-600">15 Jun 2026</td> *@
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,318 @@
+@{
+    ViewData["Title"] = Configuracion.NameTittle;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AppCompleta.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/tailwind-salida.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="relative z-50">
+
+        <!-- Fondo oscuro y sobrio absoluto, sin brillos -->
+        <div class="absolute inset-0 bg-[#0f172a] pointer-events-none"></div>
+
+        <!-- Toggle Checkbox para Menú Móvil -->
+        <input type="checkbox" id="enterprise-mobile-toggle" class="peer hidden" />
+
+        <!-- Barra principal: cristal oscuro, ángulos rectos -->
+        <nav class="relative border-b border-slate-700 bg-[#0f172a]/90 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0f172a]/60 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+
+                    <!-- 1. Logo Minimalista y Hamburguesa (Móvil) -->
+                    <div class="flex items-center w-1/2 md:w-1/4 gap-2 sm:gap-4">
+
+                        <!-- Botón Hamburguesa -->
+                        <label for="enterprise-mobile-toggle" class="md:hidden flex items-center justify-center p-2 -ml-2 text-white hover:bg-slate-800 rounded-sm cursor-pointer transition-colors flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        </label>
+
+                        <!-- Logo -->
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="group flex items-center gap-2 sm:gap-3 text-xl sm:text-2xl font-bold tracking-tight text-white hover:text-slate-300 transition-colors">
+                            <div class="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-white flex items-center justify-center rounded-sm">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
+                            <span class="truncate max-w-[130px] sm:max-w-none">@ViewData["Title"]</span>
+                        </a>
+                    </div>
+
+                    <!-- 2. Menú Central con bordes rectos/sutiles (Oculto en móvil) -->
+                    <div class="hidden md:flex flex-1 justify-center">
+                        <div class="flex items-center gap-1 p-1 bg-slate-800/50 border border-slate-700 rounded-sm backdrop-blur-md">
+
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="px-5 py-2 text-sm font-semibold text-white bg-slate-700 rounded-sm transition-colors">
+                                Inicio
+                            </a>
+
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <div class="relative group">
+                                    <button class="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-slate-300 hover:text-white rounded-sm hover:bg-slate-800 transition-colors outline-none">
+                                        Catálogo
+                                        <svg class="w-4 h-4 opacity-70 group-hover:opacity-100 transition-transform duration-300 transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </button>
+
+                                    <!-- Dropdown Recto y Profesional -->
+                                    <div class="absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] w-60 bg-[#1e293b] border border-slate-700 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 p-1 rounded-sm">
+                                        <a asp-area="Admin" asp-controller="Ventas" asp-action="Index" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-700 transition-colors group/item rounded-sm">
+                                            <div class="p-2 bg-slate-800 border border-slate-600 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-semibold text-white">Ventas</div>
+                                                <div class="text-xs text-slate-400 mt-0.5">Explora el historial completo</div>
+                                            </div>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-700 transition-colors group/item rounded-sm">
+                                            <div class="p-2 bg-slate-800 border border-slate-600 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-semibold text-white">Productos</div>
+                                                <div class="text-xs text-slate-400 mt-0.5">Explora el stock completo</div>
+                                            </div>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Categorias" asp-action="Index" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-700 transition-colors group/item mt-1 rounded-sm">
+                                            <div class="p-2 bg-slate-800 border border-slate-600 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-semibold text-white">Categorías</div>
+                                                <div class="text-xs text-slate-400 mt-0.5">Filtra tu búsqueda rápido</div>
+                                            </div>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Clientes" asp-action="Index" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-700 transition-colors group/item mt-1 rounded-sm">
+                                            <div class="p-2 bg-slate-800 border border-slate-600 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-semibold text-white">Clientes</div>
+                                                <div class="text-xs text-slate-400 mt-0.5">Gestiona tus clientes</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <!-- 3. Acciones Derecha -->
+                    <div class="flex items-center justify-end w-1/2 md:w-1/4 gap-4">
+
+                        <!-- Buscador Escritorio -->
+                        <form class="hidden lg:block relative group">
+                            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="search" class="w-48 focus:w-64 transition-all duration-300 bg-[#1e293b] border border-slate-700 rounded-sm pl-9 pr-4 py-1.5 text-sm text-white placeholder-slate-400 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 outline-none shadow-inner" placeholder="Buscar...">
+                        </form>
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="" asp-controller="Auth" asp-action="Logout" class="px-4 sm:px-6 py-1.5 sm:py-2 bg-red-950/45 border border-red-700/60 text-red-200 text-xs sm:text-sm font-bold rounded-sm shadow-sm hover:bg-red-900/40 transition-colors whitespace-nowrap">
+                                Cerrar Sesión
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Auth" asp-action="Index" class="px-4 sm:px-6 py-1.5 sm:py-2 bg-white text-slate-900 border border-transparent text-xs sm:text-sm font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors whitespace-nowrap">
+                                Entrar
+                            </a>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <!-- MENÚ MÓVIL DESPLEGABLE (Dashboard Style) -->
+        <div class="md:hidden hidden peer-checked:flex flex-col absolute top-full left-0 w-full bg-[#0f172a] border-b border-slate-700 shadow-2xl z-40">
+
+            <!-- Buscador Móvil -->
+            <div class="p-4 border-b border-slate-800 bg-[#0f172a]/50">
+                <form class="relative w-full">
+                    <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="search" class="w-full bg-[#1e293b] border border-slate-700 rounded-sm pl-10 pr-4 py-3 text-sm text-white placeholder-slate-400 focus:border-slate-500 focus:ring-1 focus:ring-slate-500 outline-none transition-all" placeholder="Buscar registros...">
+                </form>
+            </div>
+
+            <!-- Links Móviles -->
+            <div class="flex flex-col py-2">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="px-6 py-4 text-sm font-semibold text-white hover:bg-slate-800 transition-colors border-l-2 border-transparent hover:border-white">
+                    Inicio
+                </a>
+
+                <div class="px-6 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2 border-t border-slate-800 pt-4">
+                    Catálogo Corporativo
+                </div>
+
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="px-6 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2 border-t border-slate-800 pt-4">
+                        Catálogo Corporativo
+                    </div>
+
+                    <div class="flex flex-col px-2 mt-1 mb-2">
+                        <a asp-area="Admin" asp-controller="Ventas" asp-action="Index" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 transition-colors group/item rounded-sm">
+                            <div class="p-2 bg-slate-800 border border-slate-700 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <div class="text-sm font-semibold text-white">Ventas</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Historial de transacciones</div>
+                            </div>
+                        </a>
+                        <a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 transition-colors group/item rounded-sm">
+                            <div class="p-2 bg-slate-800 border border-slate-700 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                            </div>
+                            <div>
+                                <div class="text-sm font-semibold text-white">Productos</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Base de datos de stock</div>
+                            </div>
+                        </a>
+                        <a asp-area="Admin" asp-controller="Categorias" asp-action="Index" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 transition-colors group/item rounded-sm">
+                            <div class="p-2 bg-slate-800 border border-slate-700 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                            </div>
+                            <div>
+                                <div class="text-sm font-semibold text-white">Categorías</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Clasificación general</div>
+                            </div>
+                        </a>
+                        <a asp-area="Admin" asp-controller="Clientes" asp-action="Index" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 transition-colors group/item rounded-sm">
+                            <div class="p-2 bg-slate-800 border border-slate-700 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                            <div>
+                                <div class="text-sm font-semibold text-white">Clientes</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Gestiona tus clientes</div>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </header>
+
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <main role="main" class="pb-8 min-h-[60vh]">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-t border-slate-700/50 bg-[#0f172a] mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <span class="text-xs text-slate-500">
+                &copy; 2026 <span class="text-slate-400 font-medium">@ViewData["Title"]</span>
+            </span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy"
+               class="text-xs text-slate-500 hover:text-white transition-colors">
+                Privacy
+            </a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300">
+    <div class="relative w-full max-w-md bg-white border border-slate-300 rounded-sm shadow-xl transform transition-all scale-95 duration-300 overflow-hidden">
+
+        <div class="px-6 py-4 flex items-center gap-3 bg-[#0f172a] border-b-2 border-slate-700">
+            <svg class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Confirmar Eliminación</h3>   
+        </div>
+
+        <div class="p-6">
+            <p class="mt-2 text-sm text-slate-500">
+                ¿Estás seguro de que deseas eliminar
+                <span id="deleteModalItemName" class="font-bold text-red-600">este registro</span>?
+            </p>
+        </div>
+
+        <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-3">
+            <button id="cancelDeleteBtn" type="button" class="inline-block px-5 py-2 bg-slate-200 text-slate-800 text-xs font-bold uppercase rounded-sm hover:bg-slate-300 transition-colors border-0 cursor-pointer">
+                Cancelar
+            </button>
+            <button id="confirmDeleteBtn" type="button" class="inline-block px-5 py-2 bg-red-600 text-white text-xs font-bold uppercase rounded-sm shadow-md hover:bg-red-700 transition-colors border-0 cursor-pointer">
+                Sí, Eliminar
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let formToSubmit = null;
+
+        // Interceptar el envío de formularios de eliminación
+        document.addEventListener("submit", function (e) {
+            if (e.target.classList.contains("delete-form")) {
+                // Si el envío ya ha sido confirmado, permitimos que continúe
+                if (e.target.dataset.confirmed === "true") {
+                    return;
+                }
+
+                // De lo contrario, evitamos el envío inmediato del formulario
+                e.preventDefault();
+                formToSubmit = e.target;
+
+                // 1. Obtener el nombre a eliminar desde el atributo "data-delete-name" del formulario
+                const itemName = e.target.dataset.deleteName || "este registro";
+
+                // 2. Colocar el nombre dinámicamente en el modal
+                const nameSpan = document.getElementById("deleteModalItemName");
+                if (nameSpan) {
+                    nameSpan.textContent = itemName;
+                }
+
+                // Hacemos visible el modal
+                const modal = document.getElementById("deleteModal");
+                if (modal) {
+                    modal.classList.remove("hidden");
+                }
+            }
+        });
+
+        // Configurar el botón de Cancelar
+        const cancelBtn = document.getElementById("cancelDeleteBtn");
+        if (cancelBtn) {
+            cancelBtn.addEventListener("click", function () {
+                const modal = document.getElementById("deleteModal");
+                if (modal) {
+                    modal.classList.add("hidden");
+                }
+                formToSubmit = null; // Limpiar la referencia
+            });
+        }
+
+        // Configurar el botón de Confirmar Eliminación
+        const confirmBtn = document.getElementById("confirmDeleteBtn");
+        if (confirmBtn) {
+            confirmBtn.addEventListener("click", function () {
+                if (formToSubmit) {
+                    // Marcamos el formulario como confirmado y lo enviamos
+                    formToSubmit.dataset.confirmed = "true";
+                    formToSubmit.submit();
+                }
+            });
+        }
+    });
+</script>
+

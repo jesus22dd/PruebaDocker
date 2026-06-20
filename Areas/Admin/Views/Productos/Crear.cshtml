@@ -1,0 +1,81 @@
+﻿@model AppCompleta.ViewModels.ProductosViewModel
+@{
+    ViewData["Title"] = Configuracion.NameTittle;
+    var cats = ViewBag.cats;
+}
+
+<div class="max-w-4xl mx-auto mt-6">
+    <div class="bg-white border border-slate-300 rounded-sm shadow-md overflow-hidden">
+
+        <!-- Encabezado del Formulario -->
+        <div class="px-6 py-4 flex justify-between items-center bg-[#0f172a] border-b border-[#0f172a]">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Crear Nuevo Registro</h2>
+            <a asp-action="Index" class="px-4 py-1.5 bg-white text-[#0f172a] text-xs font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
+                Volver a la Lista
+            </a>
+        </div>
+
+        <form asp-action="Crear" method="post" enctype="multipart/form-data" class="p-6 md:p-8">
+
+            <div asp-validation-summary="ModelOnly" class="text-sm font-semibold text-red-400 bg-red-950/30 border border-red-900/50 p-3 rounded-sm mb-4"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                @* Nombre *@
+                <div class="col-span-1 md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nombre del producto</label>
+                    <input asp-for="Productos.Nombre" type="text" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors placeholder-slate-400" placeholder="Ej. Rtx 3070" required />
+                </div>
+
+                @* detalle *@
+                <div class="col-span-1 md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Detalle del producto</label>
+                    <input asp-for="Productos.Detalle" type="text" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors placeholder-slate-400" placeholder="Ej. De la marca de NVIDIA" required />
+                </div>
+
+                @* precio *@
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Precio del producto</label>
+                    <input asp-for="Productos.Precio" type="number" min="0" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors" placeholder="0" />
+                </div>
+
+                @* stock *@
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Stock disponible</label>
+                    <input asp-for="Productos.Stock" type="number" min="0" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors" placeholder="0" />
+                </div>
+
+                @* categoria *@
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Categoría</label>
+                    <select asp-for="Productos.IdCategoria" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors cursor-pointer">
+                        <option value="">Seleccione una opción...</option>
+                        @if (Model.Categorias != null)
+                        {
+                            foreach (var c in Model.Categorias)
+                            {
+                                <option value=@c.Id>@c.Nombre</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="mt-8 pt-5 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
+                <a asp-action="Index" class="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 text-xs font-bold uppercase rounded-sm hover:bg-slate-50 transition-colors text-center">
+                    Cancelar
+                </a>
+                <button type="submit" class="px-5 py-2.5 bg-[#0f172a] text-white text-xs font-bold uppercase rounded-sm hover:bg-slate-800 shadow-sm transition-colors cursor-pointer text-center">
+                    Guardar Registro
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

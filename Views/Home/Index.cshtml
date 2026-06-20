@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = Configuracion.NameTittle;
+}
+
+<div class="relative bg-[#1e293b] border border-slate-700 rounded-sm overflow-hidden py-24 px-6 text-center shadow-2xl">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-slate-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
+            La nueva era de tu <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-500">Catálogo Digital</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Explora nuestro inventario completo de productos y categorías con la interfaz más rápida y moderna. Todo lo que necesitas, a un clic de distancia.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a asp-controller="Home" asp-action="Productos" class="w-full sm:w-auto px-8 py-3.5 bg-white text-slate-900 text-sm font-bold uppercase tracking-wider rounded-sm shadow-lg hover:bg-slate-200 transition-colors">
+                Explorar Productos
+            </a>
+            <a asp-controller="Home" asp-action="Login" class="w-full sm:w-auto px-8 py-3.5 bg-[#0f172a] border border-slate-600 text-white text-sm font-bold uppercase tracking-wider rounded-sm hover:bg-slate-800 transition-colors">
+                Acceso Corporativo
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <div class="p-8 bg-[#1e293b] border border-slate-700 rounded-sm hover:border-slate-500 transition-colors text-center group">
+        <div class="w-14 h-14 mx-auto bg-slate-800 border border-slate-600 rounded-sm flex items-center justify-center mb-6 text-slate-300 group-hover:text-white group-hover:bg-slate-700 transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-3">Velocidad Extrema</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+            Plataforma optimizada para cargar miles de registros en milisegundos sin comprometer el rendimiento.
+        </p>
+    </div>
+
+    <div class="p-8 bg-[#1e293b] border border-slate-700 rounded-sm hover:border-slate-500 transition-colors text-center group">
+        <div class="w-14 h-14 mx-auto bg-slate-800 border border-slate-600 rounded-sm flex items-center justify-center mb-6 text-slate-300 group-hover:text-white group-hover:bg-slate-700 transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-3">Seguridad Total</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+            Autenticación robusta y cifrado de datos para garantizar que la información de tu empresa esté siempre protegida.
+        </p>
+    </div>
+
+    <div class="p-8 bg-[#1e293b] border border-slate-700 rounded-sm hover:border-slate-500 transition-colors text-center group">
+        <div class="w-14 h-14 mx-auto bg-slate-800 border border-slate-600 rounded-sm flex items-center justify-center mb-6 text-slate-300 group-hover:text-white group-hover:bg-slate-700 transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-3">Organización Clara</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+            Estructura de categorías intuitiva para que encuentres exactamente lo que buscas en tiempo récord.
+        </p>
+    </div>
+
+</div>

@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = Configuracion.NameTittle;
+}
+
+<div class="space-y-6">
+
+    <div class="relative bg-[#1e293b] border border-slate-700 rounded-sm p-6 sm:p-10 overflow-hidden shadow-lg">
+        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-slate-600/10 blur-3xl rounded-full pointer-events-none"></div>
+        <h1 class="text-2xl sm:text-4xl font-bold text-white mb-3 tracking-tight">
+            Bienvenido al Sistema de Ventas
+        </h1>
+        <p class="text-sm sm:text-base text-slate-400 max-w-2xl mb-6">
+            Panel centralizado para el control de inventario, facturación y análisis de datos corporativos. Revise el rendimiento de hoy.
+        </p>
+        <div class="flex flex-wrap gap-3">
+            <a asp-controller="Home" asp-action="Productos" class="px-5 py-2 bg-white text-slate-900 text-sm font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
+                Nueva Venta
+            </a>
+            <button class="px-5 py-2 bg-slate-800 border border-slate-600 text-white text-sm font-bold rounded-sm hover:bg-slate-700 transition-colors">
+                Generar Reporte
+            </button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#1e293b] border border-slate-700 p-5 rounded-sm shadow-sm hover:border-slate-500 transition-colors">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ventas del Día</h3>
+                <div class="p-1.5 bg-slate-800 border border-slate-600 rounded-sm text-slate-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+            <div class="text-2xl font-bold text-white mb-1">$4,250.00</div>
+            <div class="text-xs text-emerald-400 font-medium flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                +12.5% vs ayer
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] border border-slate-700 p-5 rounded-sm shadow-sm hover:border-slate-500 transition-colors">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Órdenes</h3>
+                <div class="p-1.5 bg-slate-800 border border-slate-600 rounded-sm text-slate-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                </div>
+            </div>
+            <div class="text-2xl font-bold text-white mb-1">142</div>
+            <div class="text-xs text-emerald-400 font-medium flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                +5.2% vs ayer
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] border border-slate-700 p-5 rounded-sm shadow-sm hover:border-slate-500 transition-colors">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Productos Activos</h3>
+                <div class="p-1.5 bg-slate-800 border border-slate-600 rounded-sm text-slate-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                </div>
+            </div>
+            <div class="text-2xl font-bold text-white mb-1">1,024</div>
+            <div class="text-xs text-slate-500 font-medium flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                Sin cambios
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] border border-slate-700 p-5 rounded-sm shadow-sm hover:border-slate-500 transition-colors">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Alertas Stock</h3>
+                <div class="p-1.5 bg-slate-800 border border-slate-600 rounded-sm text-slate-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+            </div>
+            <div class="text-2xl font-bold text-white mb-1">8</div>
+            <div class="text-xs text-rose-400 font-medium flex items-center gap-1">
+                Requieren atención
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-[#1e293b] border border-slate-700 rounded-sm shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-slate-800/50">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Últimas Transacciones</h2>
+            <button class="text-xs font-medium text-slate-400 hover:text-white transition-colors">Ver todas &rarr;</button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-800/30 text-xs text-slate-400 uppercase tracking-wider border-b border-slate-700">
+                        <th class="px-6 py-3 font-semibold">ID Transacción</th>
+                        <th class="px-6 py-3 font-semibold">Cliente</th>
+                        <th class="px-6 py-3 font-semibold">Fecha</th>
+                        <th class="px-6 py-3 font-semibold">Estado</th>
+                        <th class="px-6 py-3 font-semibold text-right">Monto</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm text-slate-300 divide-y divide-slate-700/50">
+                    <tr class="hover:bg-slate-700/20 transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs text-slate-400">#TRX-8091</td>
+                        <td class="px-6 py-4 font-medium text-white">Empresa Alfa S.A.</td>
+                        <td class="px-6 py-4 text-slate-400">Hace 10 min</td>
+                        <td class="px-6 py-4"><span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-sm">Completado</span></td>
+                        <td class="px-6 py-4 text-right font-medium text-white">$1,250.00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-700/20 transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs text-slate-400">#TRX-8090</td>
+                        <td class="px-6 py-4 font-medium text-white">Distribuidora Beta</td>
+                        <td class="px-6 py-4 text-slate-400">Hace 45 min</td>
+                        <td class="px-6 py-4"><span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-sm">Pendiente</span></td>
+                        <td class="px-6 py-4 text-right font-medium text-white">$840.50</td>
+                    </tr>
+                    <tr class="hover:bg-slate-700/20 transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs text-slate-400">#TRX-8089</td>
+                        <td class="px-6 py-4 font-medium text-white">Cliente Final (Mostrador)</td>
+                        <td class="px-6 py-4 text-slate-400">Hace 2 horas</td>
+                        <td class="px-6 py-4"><span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-sm">Completado</span></td>
+                        <td class="px-6 py-4 text-right font-medium text-white">$125.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
