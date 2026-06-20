@@ -22,6 +22,7 @@ COPY ["AppCompleta.csproj", "./"]
 RUN dotnet restore "./AppCompleta.csproj"
 COPY . .
 WORKDIR "/src"
+RUN npm install
 RUN dotnet build "./AppCompleta.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
