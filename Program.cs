@@ -11,7 +11,7 @@ var connection = builder.Configuration.GetConnectionString("ConnectionSQL")
     ?? throw new InvalidOperationException("Connection string 'ConnectionSQL' not found.");
 
 builder.Services.AddDbContext<AppCompletaContext>(options =>
-    options.UseSqlServer(connection));
+    options.UseNpgsql(connection));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

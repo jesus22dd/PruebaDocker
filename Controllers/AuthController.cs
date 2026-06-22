@@ -54,8 +54,8 @@ namespace AppCompleta.Controllers
                 TempData["Exito"] = $"Bienvenido {usuario.Nombre}";
                 return RedirectToAction("Index", "Ventas", new { area = "Admin" });
             }
-            catch (Exception){
-                TempData["Error"] = "Error al iniciar sesion. Verifica la conexion.";
+            catch (Exception ex){
+                TempData["Error"] = "Error al iniciar sesion. Verifica la conexion." + ex.Message;
                 return RedirectToAction("Index");
             }  
         }

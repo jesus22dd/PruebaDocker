@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using AppCompleta.Models;
@@ -28,8 +28,7 @@ public partial class AppCompletaContext : DbContext
 
     public virtual DbSet<Venta> Venta { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:ConnectionSQL");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -94,8 +93,8 @@ public partial class AppCompletaContext : DbContext
         modelBuilder.Entity<Venta>(entity =>
         {
             entity.Property(e => e.Fecha)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone");
             entity.Property(e => e.HashId).HasMaxLength(250);
             entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
 
