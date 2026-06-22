@@ -7,11 +7,15 @@ DROP TABLE IF EXISTS public."Categoria";
 DROP TABLE IF EXISTS public."Cliente";
 DROP TABLE IF EXISTS public."Usuario";
 
+DROP TYPE IF EXISTS public.rol_usuario;
+CREATE TYPE public.rol_usuario AS ENUM ('Admin', 'Worker');
+
 CREATE TABLE public."Usuario" (
     "Id"     INT GENERATED ALWAYS AS IDENTITY NOT NULL,
     "Nombre" VARCHAR(100) NOT NULL,
     "Correo" VARCHAR(100) NOT NULL,
     "Clave"  VARCHAR(255) NOT NULL,
+    "Rol"    public.rol_usuario NOT NULL DEFAULT 'Worker',
     CONSTRAINT PK_Usuario        PRIMARY KEY ("Id"),
     CONSTRAINT UQ_Usuario_Correo UNIQUE ("Correo")
 );
