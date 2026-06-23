@@ -72,10 +72,15 @@ namespace AppCompleta.Areas.Admin.Controllers
                         TempData["Error"] = "No puedes eliminar una cuenta autenticada.";
                         return RedirectToAction("Index");
                     }
-                    else {
+                    else
+                    {
                         var user = await _db.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
                         if (user != null)
                         {
+                            if (user.Id == 1) {
+                                TempData["Error"] = "No puedes eliminar al SuperAdministrador";
+                                return RedirectToAction("Index");
+                            }
                             _db.Remove(user);
                             await _db.SaveChangesAsync();
                             TempData["Exito"] = $"Usuario {user.Nombre} eliminado correctamente.";
@@ -114,6 +119,11 @@ namespace AppCompleta.Areas.Admin.Controllers
                 if (exists) {
                     var user = await _db.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
                     if (user != null) {
+                        if (user.Id == 1)
+                        {
+                            TempData["Error"] = "No puedes restablecer al SuperAdministrador";
+                            return RedirectToAction("Index");
+                        }
                         string newClave = HelpMe.ReturnNewPwd(user.Nombre, user.Correo);
                         string claveEncriptada = BCrypt.Net.BCrypt.HashPassword(newClave);
                         var userRest = await _db.Usuarios
