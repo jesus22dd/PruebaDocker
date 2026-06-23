@@ -45,6 +45,7 @@ public partial class AppCompletaContext : DbContext
             .HasPostgresEnum("auth", "one_time_token_type", new[] { "confirmation_token", "reauthentication_token", "recovery_token", "email_change_token_new", "email_change_token_current", "phone_change_token" })
             .HasPostgresEnum("realtime", "action", new[] { "INSERT", "UPDATE", "DELETE", "TRUNCATE", "ERROR" })
             .HasPostgresEnum("realtime", "equality_op", new[] { "eq", "neq", "lt", "lte", "gt", "gte", "in" })
+            .HasPostgresEnum("rol_usuario", new[] { "Admin", "Worker" })
             .HasPostgresEnum("storage", "buckettype", new[] { "STANDARD", "ANALYTICS", "VECTOR" })
             .HasPostgresExtension("extensions", "pg_stat_statements")
             .HasPostgresExtension("extensions", "pgcrypto")
@@ -123,6 +124,9 @@ public partial class AppCompletaContext : DbContext
             entity.Property(e => e.Clave).HasMaxLength(255);
             entity.Property(e => e.Correo).HasMaxLength(100);
             entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.Property(e => e.Rol)
+                .HasMaxLength(20)
+                .HasDefaultValueSql("'Worker'::character varying");
         });
 
         modelBuilder.Entity<Venta>(entity =>

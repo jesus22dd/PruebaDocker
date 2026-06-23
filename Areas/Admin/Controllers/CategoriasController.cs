@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 namespace AppCompleta.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CategoriasController : Controller
     {
         private readonly AppCompletaContext _db;
@@ -35,7 +35,7 @@ namespace AppCompleta.Areas.Admin.Controllers
             }
             try {
                 if (c != null) {
-                    c.HashId = HelperClass.ReturnHashing("azxfq34?!#xfs457!45xg4850");
+                    c.HashId = HelpMe.ReturnHashing("azxfq34?!#xfs457!45xg4850");
                     if (!string.IsNullOrEmpty(c.HashId))
                     {
                         await _db.Categoria.AddAsync(c);

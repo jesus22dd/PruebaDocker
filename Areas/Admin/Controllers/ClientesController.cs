@@ -8,7 +8,7 @@ using AppCompleta.Helpers;
 namespace AppCompleta.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class ClientesController : Controller
     {
         private readonly AppCompletaContext _db;
@@ -33,7 +33,7 @@ namespace AppCompleta.Areas.Admin.Controllers
             }
             try {
                 if (c != null) {
-                    c.HashId = Helpers.HelperClass.ReturnHashing("azxfq34?!#xfs457!45xg4850");
+                    c.HashId = Helpers.HelpMe.ReturnHashing("azxfq34?!#xfs457!45xg4850");
                     c.Nombre = c.Nombre.ToUpper();
                     await _db.Clientes.AddAsync(c);
                     await _db.SaveChangesAsync();

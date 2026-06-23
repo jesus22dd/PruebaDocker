@@ -1,0 +1,136 @@
+﻿using AppCompleta.DB;
+using AppCompleta.Models;
+using AppCompleta.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Claims;
+
+namespace AppCompleta.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    [Authorize(Roles="Admin")]
+    public class UsuariosController : Controller
+    {
+        private readonly AppCompletaContext _db;
+        public UsuariosController(AppCompletaContext db) {
+            this._db = db;
+        }
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                var users = await _db.Usuarios.ToListAsync();
+                return View(users);
+            }
+            catch
+            {
+                TempData["Error"] = "Error al cargar los datos. Verifica tu conexion.";
+            }
+            return View();
+        }
+        public IActionResult Crear() {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Crear(Usuario user) {
+            try
+            {
+                bool existe = await _db.Usuarios.AnyAsync(u => u.Correo == user.Correo);
+                if (existe)
+                {
+                    ModelState.AddModelError(string.Empty, $"{user.Correo} ya esta registrado");
+                    return View(user);
+                }
+                
+                string newClave = HelpMe.ReturnNewPwd(user.Nombre,user.Correo);
+                string claveEncriptada = BCrypt.Net.BCrypt.HashPassword(newClave);
+                user.Clave = claveEncriptada;
+
+                await _db.Usuarios.AddAsync(user);
+                await _db.SaveChangesAsync();
+                TempData["Exito"] = $"Usuario {user.Nombre} creado correctamente con Contraseña: {newClave}";
+                return RedirectToAction("Index");
+            }
+            catch {
+                TempData["Error"] = "Error al crear. Verifica tu conexion";
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Eliminar(int id) {
+            try
+            {
+                if (User.Identity!.IsAuthenticated) {
+                    int same = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                    if (same == id)
+                    {
+                        TempData["Error"] = "No puedes eliminar una cuenta autenticada.";
+                        return RedirectToAction("Index");
+                    }
+                    else {
+                        var user = await _db.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+                        if (user != null)
+                        {
+                            _db.Remove(user);
+                            await _db.SaveChangesAsync();
+                            TempData["Exito"] = $"Usuario {user.Nombre} eliminado correctamente.";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                } 
+            }
+            catch {
+                TempData["Error"] = "Error al eliminar. Verifica tu conexion.";
+            }
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> Detalle(int id) {
+            try
+            {
+                var user = await _db.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+                if (user != null)
+                {
+                    TempData["Exito"] = $"Datos cargados correctamente del registro {user.Id}";
+                    return View(user);
+                }
+            }
+            catch {
+                TempData["Error"] = "Error al cargar los datos. Verifica tu conexion.";
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Restablecer(int id)
+        {
+            try
+            {
+                bool exists = await _db.Usuarios.AnyAsync(u => u.Id == id);
+                if (exists) {
+                    var user = await _db.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+                    if (user != null) {
+                        string newClave = HelpMe.ReturnNewPwd(user.Nombre, user.Correo);
+                        string claveEncriptada = BCrypt.Net.BCrypt.HashPassword(newClave);
+                        var userRest = await _db.Usuarios
+                            .Where(u => u.Id == id)
+                            .ExecuteUpdateAsync(p => p
+                                .SetProperty(sp => sp.Clave, claveEncriptada));
+                        await _db.SaveChangesAsync();
+
+                        TempData["Exito"] = $"Contraseña del usuario {user.Nombre} restablecida correctamente a: {newClave}";
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            catch {
+                TempData["Error"] = "Error al restablecer la contraseña. Verifica tu conexion.";
+            }
+            return RedirectToAction("Index");
+        }
+    }
+}

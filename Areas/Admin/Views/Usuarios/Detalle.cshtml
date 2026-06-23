@@ -1,0 +1,52 @@
+﻿@model AppCompleta.Models.Usuario
+@{
+    ViewData["Title"] = Configuracion.NameTittle;
+    string exito = (string)TempData["Exito"]!;
+    string error = (string)TempData["Error"]!;
+}
+
+<div class="max-w-4xl mx-auto mt-6">
+    <div class="bg-white border border-slate-300 rounded-sm shadow-md overflow-hidden">
+
+        <!-- Encabezado -->
+        <div class="px-6 py-4 flex justify-between items-center bg-[#0f172a] border-b border-[#0f172a]">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Detalle del Registro</h2>
+            <a asp-action="Index" class="px-4 py-1.5 bg-white text-[#0f172a] text-xs font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
+                Volver a la Lista
+            </a>
+        </div>
+
+        <div class="p-6 md:p-8">
+            @HelpMe.Mostrar(exito, error)
+
+            <!-- Grid de campos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Nombre Completo -->
+                <div class="col-span-1 md:col-span-2">
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Nombre Completo</span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                       @Model.Nombre
+                    </p>
+                </div>
+
+                <!-- Correo Electrónico -->
+                <div class="col-span-1 md:col-span-2">
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Correo Electrónico</span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                        @Model.Correo
+                    </p>
+                </div>
+
+                <!-- Rol -->
+                <div>
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Rol Asignado</span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                       @Model.Rol
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

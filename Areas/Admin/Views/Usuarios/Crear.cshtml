@@ -1,27 +1,23 @@
-﻿@model AppCompleta.Models.Cliente
+﻿@model AppCompleta.Models.Usuario
 @{
     ViewData["Title"] = Configuracion.NameTittle;
-    string error = (string)TempData["Error"]!;
-    string exito = (string)TempData["Exito"]!;
 }
 
 <div class="max-w-4xl mx-auto mt-6">
     <div class="bg-white border border-slate-300 rounded-sm shadow-md overflow-hidden">
 
-        @HelpMe.Mostrar(exito, error)
         <!-- Encabezado del Formulario -->
         <div class="px-6 py-4 flex justify-between items-center bg-[#0f172a] border-b border-[#0f172a]">
-            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Actualizar registro</h2>
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Crear Nuevo Registro</h2>
             <a asp-action="Index" class="px-4 py-1.5 bg-white text-[#0f172a] text-xs font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
                 Volver a la Lista
             </a>
         </div>
 
-        <form asp-action="Editar" method="post" enctype="multipart/form-data" class="p-6 md:p-8">
+        <form asp-action="Crear" method="post" enctype="multipart/form-data" class="p-6 md:p-8">
 
-            <div asp-validation-summary="ModelOnly" class="text-sm font-semibold text-red-400 bg-red-950/30 border border-red-900/50 p-3 rounded-sm mb-4"></div>
+            <div asp-validation-summary="All" class="[&.validation-summary-valid]:hidden bg-rose-950/30 border border-rose-900/50 p-4 rounded-sm text-rose-400 text-sm  [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:font-semibold mb-6"> </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input type="hidden" asp-for="HashId" />
 
                 @* Nombre *@
                 <div class="col-span-1 md:col-span-2">
@@ -30,19 +26,30 @@
                            placeholder="Ej. Pablo Paz" required />
                 </div>
 
-
-                @* Telefono *@
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Telefono</label>
-                    <input asp-for="Telefono" type="number" min="0" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors"
-                           placeholder="71397999" />
-                </div>
-
                 @* Correo *@
                 <div class="col-span-1 md:col-span-2">
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Correo electronico</label>
                     <input asp-for="Correo" type="text" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors placeholder-slate-400"
                            placeholder="usuario@gmail.com" required />
+                </div>
+
+                @* Clave *@
+                <div class="col-span-1 md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Contraseña</label>
+                    <input asp-for="Clave" type="password" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors placeholder-slate-400"
+                           placeholder="Contraseña generada de manera automatica" readonly />
+                </div>
+
+                @* Roles *@
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Selecciona un Rol</label> 
+                    <select asp-for="Rol" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-sm text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#0f172a] focus:border-[#0f172a] transition-colors cursor-pointer" required >
+                        <option value="" disabled selected hidden>Seleccione una opción...</option>
+                        <option value="Worker">Trabajador</option>
+                        <option value="Admin">Administrador</option>
+                    </select>
                 </div>
             </div>
 

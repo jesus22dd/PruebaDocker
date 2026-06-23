@@ -7,15 +7,13 @@ DROP TABLE IF EXISTS public."Categoria";
 DROP TABLE IF EXISTS public."Cliente";
 DROP TABLE IF EXISTS public."Usuario";
 
-DROP TYPE IF EXISTS public.rol_usuario;
-CREATE TYPE public.rol_usuario AS ENUM ('Admin', 'Worker');
 
 CREATE TABLE public."Usuario" (
     "Id"     INT GENERATED ALWAYS AS IDENTITY NOT NULL,
     "Nombre" VARCHAR(100) NOT NULL,
     "Correo" VARCHAR(100) NOT NULL,
     "Clave"  VARCHAR(255) NOT NULL,
-    "Rol"    public.rol_usuario NOT NULL DEFAULT 'Worker',
+    "Rol" VARCHAR(20) NOT NULL DEFAULT 'Worker' CHECK ("Rol" IN ('Admin', 'Worker')),
     CONSTRAINT PK_Usuario        PRIMARY KEY ("Id"),
     CONSTRAINT UQ_Usuario_Correo UNIQUE ("Correo")
 );
@@ -71,9 +69,17 @@ CREATE TABLE public."DetalleVenta" (
     CONSTRAINT FK_DetalleVenta_Producto  FOREIGN KEY ("IdProducto") REFERENCES public."Producto"("Id")
 );
 
-INSERT INTO public."Usuario" ("Nombre", "Correo", "Clave")
+INSERT INTO public."Usuario" ("Nombre", "Correo", "Clave","Rol")
 VALUES (
     'Jesus Pablo Paz Uribe',
     'pazjesu17@gmail.com',
-    '$2a$11$QJ5sM2mjgi98mDACp2Cun.IUTy/zCsPrgwFxH4liZG3UpSW0lvjBu'
+    '$2a$11$QJ5sM2mjgi98mDACp2Cun.IUTy/zCsPrgwFxH4liZG3UpSW0lvjBu',
+    'Admin'
+),(
+    'Trabajador de Prueba',
+    'trabajador@gmail.com',
+    '$2a$11$QJ5sM2mjgi98mDACp2Cun.IUTy/zCsPrgwFxH4liZG3UpSW0lvjBu',
+    'Worker'
 );
+
+

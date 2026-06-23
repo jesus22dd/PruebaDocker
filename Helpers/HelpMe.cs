@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Html;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Text;
 
 namespace AppCompleta.Helpers
 {
-    public static class HelperClass
+    public static class HelpMe
     {
         public static IHtmlContent Mostrar(string exito, string error)
         {
@@ -43,6 +45,38 @@ namespace AppCompleta.Helpers
                 }
             }
             return hashId;
+        }
+        public static string ReturnNewPwd(string name, string email)
+        {
+            string specialChars = "@#!?¿¡/)(/&%$][}{-_";
+            StringBuilder newPwd = new();
+            int limitA = (int)name.Length / 2;
+            int limitB = (email.Length > 4) ? 4 : (int)email.Length / 2;
+            int index = 0;
+            Random rdn = new();
+            for (int i = 0; i < limitA; i++)
+            {
+                if (char.IsWhiteSpace(name[i]))
+                {
+                    break;
+                }
+                else
+                {
+                    index = rdn.Next(specialChars.Length);
+                    newPwd.Append(name[i]);
+                    newPwd.Append(specialChars[index]);
+                    newPwd.Append(rdn.Next(limitA));
+                }
+            }
+            for (int j = 0; j < limitB; j++)
+            {
+                index = rdn.Next(specialChars.Length);
+                newPwd.Append(email[j]);
+                newPwd.Append(rdn.Next(limitB));
+                newPwd.Append(specialChars[index]);
+            }
+
+            return newPwd.ToString();
         }
     }
 }

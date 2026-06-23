@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AppCompleta.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ProductosController : Controller
     {
         private readonly AppCompletaContext _db;
@@ -45,7 +45,7 @@ namespace AppCompleta.Areas.Admin.Controllers
             try
             {
                 if (p.Productos != null) {
-                    p.Productos.HashId = HelperClass.ReturnHashing("azxfq34?!#xfs457!45xg4850");
+                    p.Productos.HashId = HelpMe.ReturnHashing("azxfq34?!#xfs457!45xg4850");
                     if (!string.IsNullOrEmpty(p.Productos.HashId))
                     {
                         await _db.AddAsync(p.Productos);

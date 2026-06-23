@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AppCompleta.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin,Worker")]
     public class VentasController : Controller
     {
         private readonly AppCompletaContext _db;

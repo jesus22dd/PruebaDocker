@@ -19,6 +19,12 @@ supabase link --project-ref [ID_DEL_PROYECTO]
 Luego de cualquier comando en el archivo de [nombre_de_la_migracion] para ejecutar los cambios en la nube, basta con un:
 supabase db push
 
+Para que el Push funcione nuevamente luego de haber ejecutado al menos UNA VEZ, se debera limpiar el historial para poder ejecutar nuevamente el mismo archivo:
+supabase migration repair --status reverted [NUMERO_MIGRACION]
+
+Y para ver el numero de la migracion se debe ingresar el siguiente comando o directete copiar el numero que esta en el nombre de la migracion:
+supabase migration list
+
 Supabase > Connect (en la barra superior) > Direct [ConnectionString] > Select [Session_pooler] > Copiamos el [host] [puerto] [database] [user]
 
 Luego en AppSettings.json buscamos la llave de conexion: y usamos implementamos de la siguiente manera:

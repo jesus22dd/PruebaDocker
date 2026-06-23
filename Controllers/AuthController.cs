@@ -45,7 +45,8 @@ namespace AppCompleta.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                     new Claim(ClaimTypes.Name,usuario.Nombre),
-                    new Claim(ClaimTypes.Email,usuario.Correo)
+                    new Claim(ClaimTypes.Email,usuario.Correo),
+                    new Claim(ClaimTypes.Role,usuario.Rol)       
                 };
 
                 var identidad = new ClaimsIdentity(credencial, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -93,7 +94,8 @@ namespace AppCompleta.Controllers
                 {
                     Nombre = data.Nombre,
                     Correo = data.Correo,
-                    Clave = claveEncriptada
+                    Clave = claveEncriptada,
+                    Rol = "Admin"
                 };
 
                 await _db.AddAsync(nuevoUsuario);
