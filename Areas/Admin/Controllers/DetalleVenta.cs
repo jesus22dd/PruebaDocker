@@ -5,7 +5,7 @@ namespace AppCompleta.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin,Worker")]
-    public class DetalleVenta : Controller
+    public class DetalleVentaController : Controller
     {
         public IActionResult Index() {
             return View();

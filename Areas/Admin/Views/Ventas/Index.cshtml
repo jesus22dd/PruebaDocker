@@ -34,8 +34,8 @@
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="px-6 py-4 font-mono text-xs font-bold text-slate-500">REG# @ventas.Id</td>
                         <td class="px-6 py-4 font-semibold text-[#0f172a]">@ventas.Fecha</td>
-                        <td class="px-6 py-4 font-semibold text-[#0f172a]">@ventas.IdClienteNavigation?.Nombre</td>
-                        <td class="px-6 py-4 font-semibold text-[#0f172a]">@ventas.IdClienteNavigation?.Telefono</td>
+                        <td class="px-6 py-4 font-semibold text-[#0f172a]">@(ventas.IdClienteNavigation?.Nombre ?? "Sin Datos")</td>
+                        <td class="px-6 py-4 font-semibold text-[#0f172a]">@(ventas.IdClienteNavigation?.Telefono ?? "Sin datos")</td>
                         <td class="px-6 py-4 font-semibold text-[#0f172a]">@ventas.Total Bs</td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">

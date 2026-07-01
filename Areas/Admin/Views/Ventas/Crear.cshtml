@@ -1,6 +1,311 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
+    ViewData["Title"] = "Nueva Venta";
 }
-<h1>ESTO ES PARA CREAR UNA VENTA</h1>
+
+<!-- Estilos responsivos para móvil -->
+<style>
+    @@media (max-width: 768px) {
+        #ventas-container {
+            flex-direction: column !important;
+        }
+        #ventas-col-izq,
+        #ventas-col-der {
+            width: 100% !important;
+            flex-shrink: 1 !important;
+        }
+    }
+</style>
+
+<!-- Contenedor para Alertas JS -->
+<div id="alerta-js"></div>
+
+<!-- Contenedor Principal -->
+<div id="ventas-container" style="width: 100%;" class="flex flex-row min-h-[85vh] mt-6 bg-white border border-slate-300 rounded-sm shadow-md overflow-hidden">
+
+    <!-- LADO IZQUIERDO: Catálogo -->
+    <div id="ventas-col-izq" style="width: 66.666%; flex-shrink: 0;" class="flex flex-col h-full border-r border-slate-300">
+
+        <!-- Encabezado Izquierdo (Mismo estilo que tu Detalle.cshtml) -->
+        <div class="px-6 py-4 flex justify-between items-center bg-[#0f172a] border-b border-[#0f172a]">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Catálogo de Productos</h2>
+            <a asp-action="Index" class="px-4 py-1.5 bg-white text-[#0f172a] text-xs font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
+                Volver a la Lista
+            </a>
+        </div>
+        
+        <div class="p-6 flex flex-col h-full">
+            <!-- Buscador -->
+            <div class="mb-6">
+                <input type="text" id="buscador" placeholder="Buscar productos..."
+                       class="w-full px-3 py-2.5 text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm focus:outline-none focus:border-[#0f172a]">
+            </div>
+
+            <!-- Grid Productos -->
+            <div id="contenedor-productos" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto pb-4 pr-2">
+                <!-- Tarjetas de JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- LADO DERECHO: Carrito -->
+    <div id="ventas-col-der" style="width: 33.333%; flex-shrink: 0;" class="flex flex-col h-full bg-slate-50">
+
+        <!-- Encabezado Derecho -->
+        <div class="px-6 py-4 bg-[#0f172a] border-b border-[#0f172a]">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Detalle de Venta</h2>
+            
+        </div>
+
+        <div class="p-6 flex flex-col h-full">
+            <!-- Selección de Cliente -->
+            <div class="mb-6">
+                <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Cliente</span>
+                <select id="select-cliente" class="w-full px-3 py-2.5 text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-sm focus:outline-none focus:border-[#0f172a]">
+                    <option value="">Cliente Casual</option>
+                    <!-- JS llenará clientes -->
+                </select>
+            </div>
+
+            <!-- Lista del Carrito -->
+            <div id="contenedor-carrito" class="flex-1 overflow-y-auto space-y-2 mb-6">
+                <p class="text-sm font-semibold text-slate-400 text-center mt-10">El carrito está vacío</p>
+            </div>
+
+            <!-- Totales -->
+            <div class="pt-4 border-t border-slate-300">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total</span>
+                    <span id="total-venta" class="text-2xl font-bold text-[#0f172a]">0.00 Bs</span>
+                </div>
+
+                <button id="btn-confirmar" class="w-full py-3 bg-white text-[#0f172a] border border-slate-300 text-sm font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors uppercase tracking-wider">
+                    Confirmar Venta
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let productosCatalogo = [];
+        let carrito = [];
+
+        function mostrarError(mensaje) {
+            const contenedor = document.getElementById("alerta-js");
+            contenedor.innerHTML = `
+                <div class="flex items-center gap-3 bg-white border border-slate-300 border-l-4 border-l-red-600 p-4 rounded-sm shadow-md mb-6">
+                    <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span class="text-sm font-bold text-slate-800">${mensaje}</span>
+                </div>
+            `;
+            // Auto-ocultar después de 5 segundos
+            setTimeout(() => { contenedor.innerHTML = ""; }, 5000);
+        }
+
+        document.addEventListener("DOMContentLoaded", async function(){
+            await cargarClientes();
+            await cargarProductos();
+        });
+
+        async function cargarClientes(){
+            try{
+                const response = await fetch('/Admin/Ventas/ObtenerClientes');
+
+                const clientes = await response.json();
+
+                const selectCliente = document.getElementById("select-cliente");
+
+                clientes.forEach(cliente =>{
+                    const option = document.createElement("option");
+                    option.value = cliente.id;
+                    option.textContent = cliente.nombre;
+                    selectCliente.appendChild(option);
+                });
+            }catch(error){
+                Console.error("Error al cargar clientes" , error);
+            }
+        }
+        async function cargarProductos(){
+            try{
+                const response = await fetch('/Admin/Ventas/ObtenerProductos');
+                productosCatalogo = await response.json();
+                dibujarProductos();
+            }catch(error){
+                Console.error("Error al cargar productos:",error);
+            }
+        }
+        function dibujarProductos(){
+            const contenedor = document.getElementById("contenedor-productos");
+            contenedor.innerHTML = "";
+
+            productosCatalogo.forEach(prod =>{
+                const tarjetaHTML = `
+                <div class="bg-white border border-slate-200 rounded-sm p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-full">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-800 leading-tight mb-1">${prod.nombre}</h3>
+                        <p class="text-xs text-slate-500 mb-3">Stock: <span class="font-bold">${prod.stock}</span></p>
+                    </div>
+                    <div class="flex justify-between items-center mt-2 border-t border-slate-100 pt-3">
+                        <span style="white-space: nowrap;" class="text-sm font-extrabold text-slate-700">${prod.precio.toFixed(2)} Bs</span>
+                        
+                        <!-- Botón elegido por ti -->
+                        <button onclick="agregarAlCarrito(${prod.id})" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow flex items-center justify-center gap-1 text-xs uppercase" title="Agregar" style="white-space: nowrap;">
+                            + AGREGAR
+                        </button>
+                    </div>
+                </div>
+                `;
+                contenedor.innerHTML += tarjetaHTML;
+            })
+        }
+        function agregarAlCarrito(idProducto){
+            const producto = productosCatalogo.find(p => p.id === idProducto);
+            if(!producto) return;
+
+            const itemEnCarrito = carrito.find(item => item.idProducto === idProducto);
+
+            if(itemEnCarrito){
+                if(itemEnCarrito.cantidad < producto.stock){
+                    itemEnCarrito.cantidad += 1;
+                    itemEnCarrito.subTotal = itemEnCarrito.cantidad * itemEnCarrito.precioUnitario;
+                }else{
+                    mostrarError(`No hay más stock de ${producto.nombre}.`);
+                    return;
+                }
+            }else{
+                carrito.push({
+                    idProducto: producto.id,
+                    nombre: producto.nombre,
+                    cantidad: 1,
+                    precioUnitario: producto.precio,
+                    subTotal: producto.precio
+                });
+            }
+            console.log("Carrito actual: ", carrito);
+            dibujarCarrito();
+        }
+
+        function dibujarCarrito() {
+            const contenedor = document.getElementById("contenedor-carrito");
+            const labelTotal = document.getElementById("total-venta");
+            
+            contenedor.innerHTML = ""; // Limpiamos la pantalla
+            let total = 0;
+
+            // Si el carrito está vacío, mostramos el mensaje original
+            if (carrito.length === 0) {
+                contenedor.innerHTML = `<p class="text-sm font-semibold text-slate-400 text-center mt-10">El carrito está vacío</p>`;
+                labelTotal.textContent = "0.00 Bs";
+                return;
+            }
+
+            // Recorremos el carrito y dibujamos cada producto
+            carrito.forEach(item => {
+                total += item.subTotal;
+                
+                const itemHTML = `
+                    <div class="bg-white p-5 mb-4 border border-gray-200 rounded shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-sm font-bold text-gray-800">${item.nombre}</span>
+                            <span class="text-sm font-bold text-[#0f172a]">${item.subTotal.toFixed(2)} Bs</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <!-- Controles de Cantidad -->
+                            <div class="flex items-center border border-gray-300 rounded overflow-hidden">
+                                <button onclick="restarCantidad(${item.idProducto})" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-colors">-</button>
+                                <span class="px-3 py-1 text-xs font-bold text-gray-800 bg-white">${item.cantidad}</span>
+                                <button onclick="agregarAlCarrito(${item.idProducto})" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-colors">+</button>
+                            </div>
+                            
+                            <!-- Botón Eliminar exacto del Index -->
+                            <button onclick="eliminarDelCarrito(${item.idProducto})" style="background-color: #dc2626; color: white;" class="inline-block px-3 py-2 text-xs font-bold uppercase rounded-sm cursor-pointer border-0 hover:opacity-80 transition-opacity" title="Quitar">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                contenedor.innerHTML += itemHTML;
+            });
+
+            // Actualizamos el número gigante del total
+            labelTotal.textContent = total.toFixed(2) + " Bs";
+        }
+
+        function restarCantidad(idProducto) {
+            const item = carrito.find(p => p.idProducto === idProducto);
+            if (item) {
+                if (item.cantidad > 1) {
+                    item.cantidad -= 1;
+                    item.subTotal = item.cantidad * item.precioUnitario;
+                } else {
+                    // Si la cantidad llega a 0, lo eliminamos
+                    eliminarDelCarrito(idProducto);
+                }
+                dibujarCarrito(); // Refrescamos la pantalla
+            }
+        }
+
+        function eliminarDelCarrito(idProducto) {
+            // Filtramos el arreglo para quedarnos con todos MENOS con el que queremos borrar
+            carrito = carrito.filter(p => p.idProducto !== idProducto);
+            dibujarCarrito(); // Refrescamos la pantalla
+        }
+
+        document.getElementById("btn-confirmar").addEventListener("click",async function(){
+            if(carrito.length === 0){
+                mostrarError("No puedes confirmar una venta vacía.");
+                return;
+            }
+
+            const selectCliente = document.getElementById("select-cliente");
+            let idClienteSeleccionado = selectCliente.value;
+
+            if(idClienteSeleccionado === ""){
+                idClienteSeleccionado = null;
+            }else{
+                idClienteSeleccionado = parseInt(idClienteSeleccionado);
+            }
+
+            let granTotal = 0;
+            carrito.forEach(i => granTotal += i.subTotal);
+
+            const ventaRequest = {
+                idCliente: idClienteSeleccionado,
+                total: granTotal,
+                detalles: carrito.map(item => ({
+                    idProducto: item.idProducto,
+                    cantidad: item.cantidad,
+                    precioUnitario: item.precioUnitario,
+                    subTotal: item.subTotal
+                }))
+            };
+
+            try{
+                const response = await fetch('/Admin/Ventas/GuardarVenta',{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ventaRequest)
+                });
+
+                if(response.ok){
+                    // Ya no usamos alert(), simplemente redirigimos al Index
+                    // El TempData de C# se encargará de mostrar el mensaje con tu diseño
+                    window.location.href = '/Admin/Ventas/Index';
+
+                    //window.location.href = '/Admin/Ventas/Index';
+                } else{
+                    const errorMensaje = await response.text();
+                    mostrarError("Error de conexión: " + errorMensaje);
+                }
+            }catch(error){
+                console.error("Error en la petición: ",error);
+                mostrarError("Ocurrió un error de conexión.");
+            }
+        })
+    </script>
+}
