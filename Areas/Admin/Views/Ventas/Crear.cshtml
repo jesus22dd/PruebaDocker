@@ -108,6 +108,10 @@
         document.addEventListener("DOMContentLoaded", async function(){
             await cargarClientes();
             await cargarProductos();
+
+            document.getElementById("buscador").addEventListener("input", function(e) {
+                dibujarProductos(e.target.value);
+            });
         });
 
         async function cargarClientes(){
@@ -137,11 +141,21 @@
                 Console.error("Error al cargar productos:",error);
             }
         }
-        function dibujarProductos(){
+        function dibujarProductos(filtroTexto = "") 
+        {
             const contenedor = document.getElementById("contenedor-productos");
-            contenedor.innerHTML = "";
+            contenedor.innerHTML = ""; // Limpiamos la pantalla
 
-            productosCatalogo.forEach(prod =>{
+            // Convertimos el texto a minúsculas para que la búsqueda no sea sensible a mayúsculas
+            const textoBuscado = filtroTexto.toLowerCase();
+
+            // Filtramos el catálogo original según el nombre
+            const productosFiltrados = productosCatalogo.filter(p =>
+                p.nombre.toLowerCase().includes(textoBuscado)
+            );
+
+            // Dibujamos solo los productos que pasaron el filtro
+            productosFiltrados.forEach(prod => {
                 const tarjetaHTML = `
                 <div class="bg-white border border-slate-200 rounded-sm p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-full">
                     <div>
@@ -150,8 +164,7 @@
                     </div>
                     <div class="flex justify-between items-center mt-2 border-t border-slate-100 pt-3">
                         <span style="white-space: nowrap;" class="text-sm font-extrabold text-slate-700">${prod.precio.toFixed(2)} Bs</span>
-                        
-                        <!-- Botón elegido por ti -->
+
                         <button onclick="agregarAlCarrito(${prod.id})" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow flex items-center justify-center gap-1 text-xs uppercase" title="Agregar" style="white-space: nowrap;">
                             + AGREGAR
                         </button>
@@ -159,8 +172,9 @@
                 </div>
                 `;
                 contenedor.innerHTML += tarjetaHTML;
-            })
+            });
         }
+
         function agregarAlCarrito(idProducto){
             const producto = productosCatalogo.find(p => p.id === idProducto);
             if(!producto) return;
