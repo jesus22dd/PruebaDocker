@@ -17,5 +17,5 @@ public partial class Venta
 
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
 
-    public virtual Cliente? IdClienteNavigation { get; set; }
+    public virtual Cliente? IdClienteNavigation { get; set; } = null;
 }

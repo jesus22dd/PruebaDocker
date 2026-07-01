@@ -1,0 +1,76 @@
+﻿@model AppCompleta.Models.Venta
+@{
+    ViewData["Title"] = Configuracion.NameTittle;
+    string exito = (string)TempData["Exito"]!;
+    string error = (string)TempData["Error"]!;
+}
+
+<div class="max-w-4xl mx-auto mt-6">
+    <div class="bg-white border border-slate-300 rounded-sm shadow-md overflow-hidden">
+
+        <!-- Encabezado -->
+        <div class="px-6 py-4 flex justify-between items-center bg-[#0f172a] border-b border-[#0f172a]">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Detalle del Registro</h2>
+            <a asp-action="Index" class="px-4 py-1.5 bg-white text-[#0f172a] text-xs font-bold rounded-sm shadow-sm hover:bg-slate-200 transition-colors">
+                Volver a la Lista
+            </a>
+        </div>
+
+        <div class="p-6 md:p-8">
+            @HelpMe.Mostrar(exito, error)
+
+            <!-- Grid de campos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Nro de Venta -->
+                <div class="col-span-1 md:col-span-2">
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Nro de Venta
+                    </span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                        @Model.Id
+                    </p>
+                </div>
+
+                <!-- Fecha de emision -->
+                <div class="col-span-1 md:col-span-2">
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Fecha de Emision
+                    </span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                        @Model.Fecha
+                    </p>
+                </div>
+
+                <!-- Nombre del cliente -->
+                <div>
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Nombre del Cliente
+                    </span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                        @(Model.IdClienteNavigation?.Nombre ?? "Cliente Casual")
+                    </p>
+                </div>
+                <!-- Telefono del Cliente -->
+                <div class="col-span-1 md:col-span-2">
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Telefono del Cliente
+                    </span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                        @(Model.IdClienteNavigation?.Telefono ?? "Sin numero")
+                    </p>
+                </div>
+                <!-- Total de la Venta -->
+                <div class="col-span-1 md:col-span-2">
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Total de la Venta
+                    </span>
+                    <p class="text-sm font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-sm px-3 py-2.5">
+                        @Model.Total
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
