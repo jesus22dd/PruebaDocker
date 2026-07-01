@@ -22,7 +22,6 @@ namespace AppCompleta.Areas.Admin.Controllers
                 var ventas = await _db.Venta
                     .Include(p => p.IdClienteNavigation)
                     .ToListAsync();
-                // No sobreescribimos TempData["Exito"] aquí, para que se vea el mensaje de Crear o Editar
                 return View(ventas);
             } catch(Exception ex) {
                 TempData["Error"] = "Error al cargar ventas. Verifica tu conexion." + ex.Message;
@@ -32,9 +31,38 @@ namespace AppCompleta.Areas.Admin.Controllers
         public IActionResult Crear() {
             return View();
         }
-        public IActionResult Anular() {
-            return View();
-        }
+        [HttpPost]
+        public async Task<IActionResult> Anular(string code)
+        {// Cada venta tiene su producto y cantidad. que se debe restablecer.
+            try
+            {
+                var venta = await _db.Venta.FirstOrDefaultAsync(v => v.HashId == code);
+                if (venta != null) {
+
+                    var detalles = await _db.DetalleVenta
+                        .Where(dv => dv.IdVenta == venta.Id)
+                        .ToListAsync();
+
+                    foreach (var det in detalles) {
+                        var producto = await _db.Productos.FirstOrDefaultAsync(p => p.Id == det.IdProducto);
+
+                        if (producto != null) { 
+                            producto.Stock += det.Cantidad;
+                        }
+                    }
+
+                    _db.DetalleVenta.RemoveRange(detalles);
+                    _db.Remove(venta);
+                    await _db.SaveChangesAsync();
+                    TempData["Exito"] = $"Venta Nro# {venta.Id} anulada correctamente.";
+                }
+            }
+            catch (Exception ex) {
+                TempData["Error"] = "Error al anular venta, verifica tu conexión" + ex.Message;
+            }
+            return RedirectToAction("Index");
+        }   
+        
         [HttpGet]
         public async Task<IActionResult> Detalle(string code) {
             try {

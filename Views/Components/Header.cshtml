@@ -330,7 +330,11 @@
                     if (titleSpan) titleSpan.textContent = "Confirmar Restablecimiento";
                     if (verbSpan) verbSpan.textContent = "restablecer la contraseña de";
                     if (confirmBtn) confirmBtn.textContent = "Sí, Restablecer";
-                } else {
+                } else if(actionType === "anular"){
+                    if (titleSpan) titleSpan.textContent = "Confirmar Anulación";
+                    if (verbSpan) verbSpan.textContent = "anular la venta Nro#";
+                    if (confirmBtn) confirmBtn.textContent = "Sí, Anular";
+                }else {
                     if (titleSpan) titleSpan.textContent = "Confirmar Eliminación";
                     if (verbSpan) verbSpan.textContent = "eliminar";
                     if (confirmBtn) confirmBtn.textContent = "Sí, Eliminar";

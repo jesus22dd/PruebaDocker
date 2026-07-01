@@ -39,7 +39,7 @@
                         <td class="px-6 py-4 font-semibold text-[#0f172a]">@ventas.Total Bs</td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <form asp-action="Anular" asp-route-code="@ventas.HashId" method="post" class="m-0 p-0 delete-form" data-delete-name="@ventas.Id">
+                                <form asp-action="Anular" asp-route-code="@ventas.HashId" method="post" class="m-0 p-0 delete-form" data-delete-name="@ventas.Id" data-action-type="anular">
                                     <button type="submit" style="background-color: #dc2626; color: white;" class="inline-block px-3 py-2 text-xs font-bold uppercase rounded-sm cursor-pointer border-0 hover:opacity-80 transition-opacity">
                                         Anular
                                     </button>
