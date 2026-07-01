@@ -33,7 +33,7 @@ namespace AppCompleta.Areas.Admin.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Anular(string code)
-        {// Cada venta tiene su producto y cantidad. que se debe restablecer.
+        {// Usar .AsNoTracking() para ignorar la navegacion que conecta mas de un objeto
             try
             {
                 var venta = await _db.Venta.FirstOrDefaultAsync(v => v.HashId == code);
@@ -68,6 +68,8 @@ namespace AppCompleta.Areas.Admin.Controllers
             try {
                 var venta = await _db.Venta
                     .Include(v => v.IdClienteNavigation)
+                    .Include(v => v.DetalleVenta)
+                        .ThenInclude(d => d.IdProductoNavigation)
                     .FirstOrDefaultAsync(v => v.HashId == code);
                 if (venta != null) {
                     TempData["Exito"] = $"Venta Nro {venta.Id} cargado correctamente.";

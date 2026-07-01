@@ -60,6 +60,48 @@
                         @(Model.IdClienteNavigation?.Telefono ?? "Sin numero")
                     </p>
                 </div>
+
+                <!-- Detalle de Productos -->
+                <div class="col-span-1 md:col-span-2 mt-4">
+                    <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        Productos Vendidos
+                    </span>
+                    <div class="overflow-x-auto border border-slate-200 rounded-sm shadow-sm">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-xs uppercase font-bold text-slate-500 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-4 py-3">Producto</th>
+                                    <th class="px-4 py-3 text-center">Cant.</th>
+                                    <th class="px-4 py-3 text-right">P. Unitario</th>
+                                    <th class="px-4 py-3 text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 bg-white">
+                                @if (Model.DetalleVenta != null && Model.DetalleVenta.Any())
+                                {
+                                    foreach (var det in Model.DetalleVenta)
+                                    {
+                                        <tr class="hover:bg-slate-50 transition-colors">
+                                            <td class="px-4 py-3 font-semibold text-slate-800">
+                                                @(det.IdProductoNavigation?.Nombre ?? "Producto Eliminado")
+                                            </td>
+                                            <td class="px-4 py-3 text-center font-medium">@det.Cantidad</td>
+                                            <td class="px-4 py-3 text-right">@det.PrecioUnitario.ToString("0.00") Bs</td>
+                                            <td class="px-4 py-3 text-right font-bold text-slate-700">@det.SubTotal.ToString("0.00") Bs</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" class="px-4 py-6 text-center text-slate-400 italic">No hay detalles para esta venta.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <!-- Total de la Venta -->
                 <div class="col-span-1 md:col-span-2">
                     <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">

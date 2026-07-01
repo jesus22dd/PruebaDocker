@@ -75,15 +75,6 @@
                                         </a>
                                         @if (User.IsInRole("Admin"))
                                         {
-                                            <a asp-area="Admin" asp-controller="DetalleVenta" asp-action="Index" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-700 transition-colors group/item rounded-sm">
-                                                <div class="p-2 bg-slate-800 border border-slate-600 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                                                </div>
-                                                <div>
-                                                    <div class="text-sm font-semibold text-white">Historial</div>
-                                                    <div class="text-xs text-slate-400 mt-0.5">Explora el stock completo</div>
-                                                </div>
-                                            </a>
                                             <a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-700 transition-colors group/item rounded-sm">
                                                 <div class="p-2 bg-slate-800 border border-slate-600 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
@@ -190,15 +181,6 @@
                         </a>
                         @if (User.IsInRole("Admin"))
                         {
-                            <a asp-area="Admin" asp-controller="DetalleVenta" asp-action="Index" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 transition-colors group/item rounded-sm">
-                                <div class="p-2 bg-slate-800 border border-slate-700 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-white">Historial</div>
-                                    <div class="text-xs text-slate-400 mt-0.5">Historial de transacciones</div>
-                                </div>
-                            </a>
                             <a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 transition-colors group/item rounded-sm">
                                 <div class="p-2 bg-slate-800 border border-slate-700 text-slate-300 group-hover/item:text-white transition-colors rounded-sm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>

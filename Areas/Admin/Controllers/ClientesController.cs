@@ -97,7 +97,7 @@ namespace AppCompleta.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             try {
-                var client = await _db.Clientes.SingleOrDefaultAsync(c => c.HashId == c.HashId);
+                var client = await _db.Clientes.SingleOrDefaultAsync(cl => cl.HashId == c.HashId);
                 if (client != null) {
                     client.Nombre = c.Nombre;
                     client.Correo = c.Correo;
