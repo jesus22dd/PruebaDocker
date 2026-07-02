@@ -16,13 +16,33 @@ namespace AppCompleta.Areas.Admin.Controllers
         public VentasController(AppCompletaContext db) {
             this._db = db;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber)
         {
             try {
-                var ventas = await _db.Venta
-                    .Include(p => p.IdClienteNavigation)
-                    .ToListAsync();
-                return View(ventas);
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["CurrentFilter"] = searchString;
+
+                var ventasQuery = _db.Venta.Include(p => p.IdClienteNavigation).AsNoTracking();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    var searchLower = searchString.ToLower();
+                    ventasQuery = ventasQuery.Where(v => 
+                        (v.IdClienteNavigation != null && v.IdClienteNavigation.Nombre.ToLower().Contains(searchLower)) || 
+                        v.HashId.ToLower().Contains(searchLower));
+                }
+
+                if (sortOrder == "antiguo")
+                {
+                    ventasQuery = ventasQuery.OrderBy(v => v.Id);
+                }
+                else
+                {
+                    ventasQuery = ventasQuery.OrderByDescending(v => v.Id);
+                }
+
+                int pageSize = 8;
+                return View(await PaginatedList<Venta>.CreateAsync(ventasQuery, pageNumber ?? 1, pageSize));
             } catch(Exception ex) {
                 TempData["Error"] = "Error al cargar ventas. Verifica tu conexion." + ex.Message;
             }

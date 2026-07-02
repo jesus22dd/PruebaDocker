@@ -1,4 +1,4 @@
-@model IEnumerable<AppCompleta.Models.Usuario>
+@model AppCompleta.Helpers.PaginatedList<AppCompleta.Models.Usuario>
 @{
     ViewData["Title"] = Configuracion.NameTittle;
     string exito = (string)TempData["Exito"]!;
@@ -14,6 +14,12 @@
             + Nuevo Usuario
         </a>
     </div>
+
+    <!-- Componente Buscador -->
+    @{
+        ViewData["SearchPlaceholder"] = "Buscar usuario por nombre o correo...";
+    }
+    <partial name="_Filtros" />
 
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[600px]">
@@ -61,4 +67,7 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Componente Paginación -->
+    <partial name="_Paginacion" model="Model" />
 </div>

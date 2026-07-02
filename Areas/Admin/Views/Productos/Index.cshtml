@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AppCompleta.Models.Producto>
+@model AppCompleta.Helpers.PaginatedList<AppCompleta.Models.Producto>
 @{
     ViewData["Title"] = Configuracion.NameTittle;
     string error = (string)TempData["Error"]!;
@@ -13,6 +13,12 @@
             + Nuevo Producto
         </a>
     </div>
+
+    <!-- Componente Buscador -->
+    @{
+        ViewData["SearchPlaceholder"] = "Buscar producto por nombre o detalle...";
+    }
+    <partial name="_Filtros" />
 
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[600px]">
@@ -60,4 +66,7 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Componente Paginación -->
+    <partial name="_Paginacion" model="Model" />
 </div>

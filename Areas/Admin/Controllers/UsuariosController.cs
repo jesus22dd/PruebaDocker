@@ -1,4 +1,4 @@
-﻿using AppCompleta.DB;
+using AppCompleta.DB;
 using AppCompleta.Models;
 using AppCompleta.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -19,12 +19,34 @@ namespace AppCompleta.Areas.Admin.Controllers
         public UsuariosController(AppCompletaContext db) {
             this._db = db;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber)
         {
             try
             {
-                var users = await _db.Usuarios.ToListAsync();
-                return View(users);
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["CurrentFilter"] = searchString;
+
+                var usuariosQuery = _db.Usuarios.AsNoTracking();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    var searchLower = searchString.ToLower();
+                    usuariosQuery = usuariosQuery.Where(u => 
+                        u.Nombre.ToLower().Contains(searchLower) || 
+                        u.Correo.ToLower().Contains(searchLower));
+                }
+
+                if (sortOrder == "antiguo")
+                {
+                    usuariosQuery = usuariosQuery.OrderBy(u => u.Id);
+                }
+                else
+                {
+                    usuariosQuery = usuariosQuery.OrderByDescending(u => u.Id);
+                }
+
+                int pageSize = 8;
+                return View(await PaginatedList<Usuario>.CreateAsync(usuariosQuery, pageNumber ?? 1, pageSize));
             }
             catch
             {

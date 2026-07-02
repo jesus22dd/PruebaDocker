@@ -1,4 +1,4 @@
-﻿using AppCompleta.DB;
+using AppCompleta.DB;
 using AppCompleta.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +15,36 @@ namespace AppCompleta.Areas.Admin.Controllers
         public ClientesController(AppCompletaContext db) {
             this._db = db;
         }
-        public async Task<IActionResult> Index() {
-            var clientes = await _db.Clientes.ToListAsync();
-            return View(clientes);
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber) {
+            // Guardar el estado de los filtros para mantenerlos al navegar por la paginación
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchString;
+
+            // Inicializar la consulta base
+            var clientes = from c in _db.Clientes select c;
+
+            // Búsqueda (Filtro por Nombre, Correo o Teléfono)
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                clientes = clientes.Where(c => c.Nombre.ToLower().Contains(searchString) || 
+                                               (c.Correo != null && c.Correo.ToLower().Contains(searchString)) ||
+                                               (c.Telefono != null && c.Telefono.ToLower().Contains(searchString)));
+            }
+
+            // Ordenamiento (Por defecto recientes primero, es decir, Id mayor)
+            if (sortOrder == "antiguo")
+            {
+                clientes = clientes.OrderBy(c => c.Id);
+            }
+            else
+            {
+                clientes = clientes.OrderByDescending(c => c.Id);
+            }
+
+            // Paginación (8 registros por página)
+            int pageSize = 8;
+            return View(await PaginatedList<Cliente>.CreateAsync(clientes.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
         [HttpGet]
         public IActionResult Crear() {

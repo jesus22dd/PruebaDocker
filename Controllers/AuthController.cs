@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using AppCompleta.DB;
 using AppCompleta.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +20,9 @@ namespace AppCompleta.Controllers
         [HttpGet]
         public IActionResult Index() {
             if (User.Identity != null && User.Identity.IsAuthenticated) {
+                if (User.IsInRole("Admin")) {
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
                 return RedirectToAction("Index","Ventas",new { area = "Admin"});
             }
             return View();
@@ -53,6 +56,11 @@ namespace AppCompleta.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidad));
                 TempData["Exito"] = $"Bienvenido {usuario.Nombre}";
+                
+                if (usuario.Rol == "Admin")
+                {
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
                 return RedirectToAction("Index", "Ventas", new { area = "Admin" });
             }
             catch (Exception ex){
@@ -69,6 +77,9 @@ namespace AppCompleta.Controllers
         [HttpGet]
         public IActionResult Register() {
             if (User.Identity != null && User.Identity.IsAuthenticated) {
+                if (User.IsInRole("Admin")) {
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
                 return RedirectToAction("Index","Ventas",new { area="Admin"});
             }
             return View();

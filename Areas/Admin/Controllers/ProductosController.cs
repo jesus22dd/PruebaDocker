@@ -1,4 +1,4 @@
-﻿using AppCompleta.DB;
+using AppCompleta.DB;
 using AppCompleta.Helpers;
 using AppCompleta.Models;
 using AppCompleta.ViewModels;
@@ -19,11 +19,31 @@ namespace AppCompleta.Areas.Admin.Controllers
         {
             _db = db;
         }
-        public async Task<IActionResult> Index() { 
-            var productos = await _db.Productos
-                .Include(p => p.IdCategoriaNavigation)
-                .ToListAsync();
-            return View(productos);
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber) { 
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchString;
+
+            var productosQuery = _db.Productos.Include(p => p.IdCategoriaNavigation).AsNoTracking();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var searchLower = searchString.ToLower();
+                productosQuery = productosQuery.Where(p => 
+                    p.Nombre.ToLower().Contains(searchLower) || 
+                    (p.Detalle != null && p.Detalle.ToLower().Contains(searchLower)));
+            }
+
+            if (sortOrder == "antiguo")
+            {
+                productosQuery = productosQuery.OrderBy(p => p.Id);
+            }
+            else
+            {
+                productosQuery = productosQuery.OrderByDescending(p => p.Id);
+            }
+
+            int pageSize = 8;
+            return View(await PaginatedList<Producto>.CreateAsync(productosQuery, pageNumber ?? 1, pageSize));
         }
         public async Task<IActionResult> Crear() {
             var productos = new ProductosViewModel

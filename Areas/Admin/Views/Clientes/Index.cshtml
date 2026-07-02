@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AppCompleta.Models.Cliente>
+@model AppCompleta.Helpers.PaginatedList<AppCompleta.Models.Cliente>
 @{
     ViewData["Title"] = Configuracion.NameTittle;
     string exito = (string)TempData["Exito"]!;
@@ -14,6 +14,12 @@
             + Nuevo Cliente
         </a>
     </div>
+
+    <!-- Barra de Búsqueda y Filtros -->
+    @{
+        ViewData["SearchPlaceholder"] = "Nombre, correo o teléfono...";
+    }
+    <partial name="_Filtros" />
 
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[600px]">
@@ -55,4 +61,7 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Paginación Backend -->
+    <partial name="_Paginacion" model="Model" />
 </div>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AppCompleta.Models.Venta>
+@model AppCompleta.Helpers.PaginatedList<AppCompleta.Models.Venta>
 @{
     ViewData["Title"] = Configuracion.NameTittle;
     string error = (string)TempData["Error"]!;
@@ -13,6 +13,12 @@
             + Nueva Venta
         </a>
     </div>
+
+    <!-- Componente Buscador -->
+    @{
+        ViewData["SearchPlaceholder"] = "Buscar venta por HashId o nombre de cliente...";
+    }
+    <partial name="_Filtros" />
 
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[600px]">
@@ -57,4 +63,7 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Componente Paginación -->
+    <partial name="_Paginacion" model="Model" />
 </div>

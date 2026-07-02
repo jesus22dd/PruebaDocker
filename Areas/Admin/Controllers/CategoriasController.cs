@@ -1,4 +1,4 @@
-﻿using AppCompleta.DB;
+using AppCompleta.DB;
 using AppCompleta.Models;
 using AppCompleta.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -16,9 +16,29 @@ namespace AppCompleta.Areas.Admin.Controllers
         public CategoriasController(AppCompletaContext db) {
             this._db = db;
         }
-        public async Task<IActionResult> Index() { 
-            var categorias = await _db.Categoria.ToListAsync();
-            return View(categorias);
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber) { 
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchString;
+
+            var categoriasQuery = _db.Categoria.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var searchLower = searchString.ToLower();
+                categoriasQuery = categoriasQuery.Where(c => c.Nombre.ToLower().Contains(searchLower));
+            }
+
+            if (sortOrder == "antiguo")
+            {
+                categoriasQuery = categoriasQuery.OrderBy(c => c.Id);
+            }
+            else
+            {
+                categoriasQuery = categoriasQuery.OrderByDescending(c => c.Id);
+            }
+
+            int pageSize = 8;
+            return View(await PaginatedList<Categoria>.CreateAsync(categoriasQuery, pageNumber ?? 1, pageSize));
         }
         [HttpGet]
         public IActionResult Crear()
